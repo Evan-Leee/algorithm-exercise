@@ -37,4 +37,34 @@ function quickSort(arr) {
   return quickSort(left).concat([pointer], quickSort(right));
 }
 
+/*按从小到大的顺序排序
+1.找出【基准点】，设置【左开头下标】和【右开头下标】
+2.从左向右遍历直到找到大于【基准点】的数，从右向左遍历直到找到小于【基准点】的数，然后交换，重复此动作直到左右下标相等
+3.左右下标相等时，说明这个位置就是【基准点】该在的位置，然后【基准点】跟【左右下标相等点】互换
+4.以【左右下标相等点】做分割，左右两各自部分重复123步【递归】
+5.返回数组的引用
+*/
 
+function quickSortV2(arr, start, end) {
+  if(arr.length <=1 || start > end) return arr;
+
+  let left = start;
+  let right = end;
+
+  const pointer = arr[end];
+
+  while(left !== right) {
+      while (left < right && arr[left] <= pointer) {
+          left ++;
+      }
+
+      while (left < right && arr[right] >= pointer) {
+          right --;
+      }
+      swap(arr, left, right);
+  }
+  swap(arr, left, end);
+  quickSortV2(arr, start, left - 1);
+  quickSortV2(arr, left + 1, end);
+  return arr;
+}
