@@ -5,7 +5,7 @@
  */
 var getLeastNumbers = function(arr, k) {
   if (arr.length <= k) return arr;
-  const result = quickSort(arr);
+  const result = quickSortInPlace(arr, 0, arr.length - 1);
   return result.slice(0, k);
 };
 
@@ -45,26 +45,36 @@ function quickSort(arr) {
 5.返回数组的引用
 */
 
-function quickSortV2(arr, start, end) {
-  if(arr.length <=1 || start > end) return arr;
-
-  let left = start;
-  let right = end;
-
-  const pointer = arr[end];
-
+function partition(arr, start, end) {
+  if (start >= end || arr.length <= 1) return start;
+  let left = start, right = end;
+  const pointer = arr[start];
   while(left !== right) {
-      while (left < right && arr[left] <= pointer) {
-          left ++;
-      }
-
-      while (left < right && arr[right] >= pointer) {
+      while(left < right && arr[right] >= pointer) {
           right --;
       }
-      swap(arr, left, right);
+      while(left < right && arr[left] <= pointer) {
+          left ++;
+      }
+      if (left < right) {
+          const temp = arr[left];
+          arr[left] = arr[right];
+          arr[right] = temp;
+      }
   }
-  swap(arr, left, end);
-  quickSortV2(arr, start, left - 1);
-  quickSortV2(arr, left + 1, end);
+  arr[start] = arr[left];
+  arr[left] = pointer;
+  return left;
+}
+
+function quickSortInPlace(arr, start, end) {
+  if (arr.length <=1 || start > end) return arr;
+
+  const pointer = arr[start];
+
+  const pointerIndex = partition(arr, start, end);
+  
+  quickSortInPlace(arr, start, pointerIndex - 1);
+  quickSortInPlace(arr, pointerIndex + 1, end);
   return arr;
 }
