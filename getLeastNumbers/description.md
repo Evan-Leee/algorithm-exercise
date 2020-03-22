@@ -13,8 +13,10 @@
 输出：[0]
 ```
 
-限制：
+#### 限制：
 ```
 0 <= k <= arr.length <= 10000
 0 <= arr[i] <= 10000
 ```
+
+[原题链接](https://leetcode-cn.com/problems/zui-xiao-de-kge-shu-lcof/)
