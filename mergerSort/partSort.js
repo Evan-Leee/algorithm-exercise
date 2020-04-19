@@ -3,45 +3,23 @@
  * @return {number[]}
  */
 var subSort = function(array) {
-  const sortedArr = mergeSort(array);
-  
-  if (array.length === 0 || sortedArr.join() === array.join()) return [-1, -1];
-  
-  let start, end, i = 0;
-  while(start === undefined || end === undefined) {
-      if (sortedArr[i] !== array[i] && start === undefined) {
-          start = i;
-      }
-      if (sortedArr[array.length - 1 -i] !== array[array.length - 1 -i] && end === undefined) {
-          end = array.length - 1 -i;
-      }
-      i++;
-  }
-  return [start, end];
+    let max = array[0], min = array[array.length-1];
+    let m = n = -1;
+
+    for(let i = 0; i < array.length; i++) {
+        if (array[i] <  max) {
+            n = i;
+        } else {
+            max = array[i];
+        }
+
+        if (array[array.length-1-i] > min) {
+            m = array.length-1-i;
+        } else {
+            min = array[array.length-1-i];
+        }
+    }
+    return [m,n];
 };
 
-function mergeSort(arr) {
-  if (arr.length <= 1) return arr;
-
-  const divider = Math.floor(arr.length / 2);
-  const first = mergeSort(arr.slice(0, divider));
-  const second = mergeSort(arr.slice(divider));
-  const result = [];
-  let i = 0, j = 0;
-  while(i < first.length || j < second.length) {  
-      if (i >= first.length) {
-          result.push(second[j++]);
-          continue;
-      }
-      if (j >= second.length) {
-          result.push(first[i++]);
-          continue;
-      }
-      if (first[i] < second[j]) {
-          result.push(first[i++]);
-      } else {
-          result.push(second[j++]);
-      }
-  }
-  return result;
-}
+//对于递增排序来说，按照升序，找出最远逆序的下标，为n，同时从数组尾找出按照降序，找出最远的逆序下标，为m
